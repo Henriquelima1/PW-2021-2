@@ -2,12 +2,7 @@ package br.edu.ifsul.dao;
 
 import java.io.Serializable;
 
-/**
- *
- * @author Prof. Me. Jorge Luis Boeira Bavaresco
- * @email jorgebavaresco@ifsul.edu.br
- * @organization IFSUL - Campus Passo Fundo
- */
+
 public class Ordem implements Serializable {
 
     private String atributo;

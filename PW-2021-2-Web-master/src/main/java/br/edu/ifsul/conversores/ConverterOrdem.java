@@ -9,12 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author Prof. Me. Jorge Luis Boeira Bavaresco
- * @email jorgebavaresco@ifsul.edu.br
- * @organization IFSUL - Campus Passo Fundo
- */
+
 @FacesConverter(value = "converterOrdem")
 @RequestScoped
 public class ConverterOrdem implements Serializable, Converter{

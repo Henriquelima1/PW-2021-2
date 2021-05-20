@@ -16,9 +16,7 @@
                             <p:inputText value="#{controleSeguro.objeto.id}"
                                          size="20" maxlength="20" 
                                          readonly="#{!controleSeguro.novo}">
-                                <p:ajax process="@this" update="@this growl"
-                                        listener="#{controleSeguro.verificarUnicidadeNomeUsuario()}"
-                                        event="blur"/>
+                                
                             </p:inputText>
                             
                             <p:outputLabel for="data" value="Data"/> 

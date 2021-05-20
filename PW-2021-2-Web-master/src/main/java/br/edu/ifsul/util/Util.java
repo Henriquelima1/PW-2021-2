@@ -3,12 +3,8 @@ package br.edu.ifsul.util;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-/**
- *
- * @author Prof. Me. Jorge Luis Boeira Bavaresco
- * @email jorgebavaresco@ifsul.edu.br
- * @organization IFSUL - Campus Passo Fundo
- */
+
+
 public class Util {
 
     public static String getMensagemErro(Exception e){
