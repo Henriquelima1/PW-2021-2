@@ -23,7 +23,7 @@ public class ControleAcessorios implements Serializable{
      @EJB
     private AcessoriosDao<Acessorios> dao;
     private Acessorios objeto;
-
+    private int abaAtiva;
     
     public ControleAcessorios(){
         
@@ -35,11 +35,13 @@ public class ControleAcessorios implements Serializable{
     
     public void novo(){
         objeto = new Acessorios();
+        abaAtiva = 0;
     }
     
     public void alterar(Object id){
         try {
             objeto = dao.getObjectByID(id);
+            abaAtiva = 0;
         } catch (Exception e){
             Util.mensagemInformacao("Erro ao recuperar objeto: " + Util.getMensagemErro(e));
         }
@@ -78,6 +80,14 @@ public class ControleAcessorios implements Serializable{
 
     public Acessorios getObjeto() {
         return objeto;
+    }
+
+    public int getAbaAtiva() {
+        return abaAtiva;
+    }
+
+    public void setAbaAtiva(int abaAtiva) {
+        this.abaAtiva = abaAtiva;
     }
 
     public void setObjeto(Acessorios objeto) {

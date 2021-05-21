@@ -36,6 +36,9 @@ public class ControleCarro implements Serializable{
     public String listar(){
         return "/privado/Carro/listar?faces-redirect=true";
     }
+     public String Cadastro(){
+        return "/privado/Carro/formulario?faces-redirect=true";
+    }
     
     public void novo(){
         objeto = new Carro();

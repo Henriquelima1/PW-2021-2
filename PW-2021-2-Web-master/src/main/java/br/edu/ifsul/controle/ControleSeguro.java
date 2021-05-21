@@ -32,6 +32,9 @@ public class ControleSeguro implements Serializable{
     public String listar(){
         return "/privado/Seguro/listar?faces-redirect=true";
     }
+    public String Cadastro(){
+        return "/privado/Seguro/formulario?faces-redirect=true";
+    }
     
     public void novo(){
         objeto = new Seguro();

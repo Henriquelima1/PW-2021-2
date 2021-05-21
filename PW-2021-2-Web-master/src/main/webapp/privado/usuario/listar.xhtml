@@ -1,4 +1,5 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -6,34 +7,33 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/template.xhtml">
-        <ui:define name="titulo">Manutenção de Acessorios</ui:define>
+        <ui:define name="titulo">Manutenção de Usuarios</ui:define>
         <ui:define name="conteudo">
             <h:form id="formListagem" prependId="false">
                 <p:growl/>
                 <p:commandButton value="Novo"
-                                 actionListener="#{controleAcessorios.novo()}"
+                                 actionListener="#{controleUsuario.novo()}"
                                  icon="pi pi-plus"
                                  update="formEdicao"
                                  process="@this"
                                  rendered="#{p:ifGranted('ADICIONAR')}"
                                  oncomplete="PF('dlg').show();"/>
-                
                 <div align="center">
                     <p:panelGrid columns="11">
                         <p:outputLabel value="Ordem:"/>
-                        <p:selectOneMenu value="#{controleAcessorios.dao.ordemAtual}"
-                                         converter="#{controleAcessorios.dao.converterOrdem}">
-                            <f:selectItems value="#{controleAcessorios.dao.listaOrdem}"
+                        <p:selectOneMenu value="#{controleUsuario.dao.ordemAtual}"
+                                         converter="#{controleUsuario.dao.converterOrdem}">
+                            <f:selectItems value="#{controleUsuario.dao.listaOrdem}"
                                            var="ord" itemValue="#{ord.atributo}"/>
                             <p:ajax update="listagem"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Filtro:"/>
-                        <p:inputText value="#{controleAcessorios.dao.filtro}">
+                        <p:inputText value="#{controleUsuario.dao.filtro}">
 
                         </p:inputText>
                         <p:commandButton value="Filtrar" update="listagem"/>
                         <p:outputLabel value="Máximo de objetos"/>
-                        <p:selectOneMenu value="#{controleAcessorios.dao.maximoObjetos}">
+                        <p:selectOneMenu value="#{controleUsuario.dao.maximoObjetos}">
                             <f:selectItem itemValue="3" itemLabel="3"/>
                             <f:selectItem itemValue="5" itemLabel="5"/>
                             <f:selectItem itemValue="10" itemLabel="10"/>
@@ -41,77 +41,57 @@
                             <f:selectItem itemValue="50" itemLabel="50"/>
                             <p:ajax update="listagem"/>
                         </p:selectOneMenu>
-                        <p:commandButton action="#{controleAcessorios.dao.primeiro()}"
+                        <p:commandButton action="#{controleUsuario.dao.primeiro()}"
                                          title="Primeiro" update="listagem"
                                          icon="pi pi-step-backward"/>
-                        <p:commandButton action="#{controleAcessorios.dao.anterior()}"
+                        <p:commandButton action="#{controleUsuario.dao.anterior()}"
                                          title="Anterior" update="listagem"
                                          icon="pi pi-chevron-left"/>  
-                        <p:commandButton action="#{controleAcessorios.dao.proximo()}"
+                        <p:commandButton action="#{controleUsuario.dao.proximo()}"
                                          title="Proximo" update="listagem"
                                          icon="pi pi-chevron-right"/>                         
-                        <p:commandButton action="#{controleAcessorios.dao.ultimo()}"
+                        <p:commandButton action="#{controleUsuario.dao.ultimo()}"
                                          title="Ultimo" update="listagem"
                                          icon="pi pi-step-forward"/>                        
                     </p:panelGrid>
-                </div>
-                <p:dataTable value="#{controleAcessorios.dao.listaObjetos}" var="obj"
+                </div>               
+                <p:dataTable value="#{controleUsuario.dao.listaObjetos}" var="obj"
                              id="listagem">
-                    <p:column headerText="ID">
-                        <p:outputLabel value="#{obj.id}"/>
+                    <f:facet name="footer">
+                        <p:outputLabel value="#{controleUsuario.dao.mensagemNavegacao}"/>
+                    </f:facet>                  
+                    <p:column headerText="Nome de usuário">
+                        <p:outputLabel value="#{obj.nomeUsuario}"/>
                     </p:column>
-                    <p:column headerText="Descricao">
-                        <p:outputLabel value="#{obj.descricao}"/>
+                    <p:column headerText="Nome">
+                        <p:outputLabel value="#{obj.nome}"/>
                     </p:column>     
-                   
+                    <p:column headerText="Email">
+                        <p:outputLabel value="#{obj.email}"/>
+                    </p:column>  
                     <p:column headerText="Ações">
                         <div align="center">
-                            <p:commandButton actionListener="#{controleAcessorios.alterar(obj.id)}"
+                            <p:commandButton actionListener="#{controleUsuario.alterar(obj.nomeUsuario)}"
                                              icon="pi pi-pencil"
                                              title="Editar"
                                              update="formEdicao"
                                              rendered="#{p:ifGranted('EDITAR')}"
                                              process="@this"
                                              oncomplete="PF('dlg').show();"/>
-                            <p:commandButton actionListener="#{controleAcessorios.excluir(obj.id)}"
+                            <p:commandButton actionListener="#{controleUsuario.excluir(obj.nomeUsuario)}"
                                              icon="pi pi-trash"
                                              update="@form"
-                                             rendered="#{p:ifGranted('REMOVER')}"
                                              process="@this"
-                                             onclick="if (!confirm('Confirma a exclusão')) return false"/>
+                                             rendered="#{p:ifGranted('REMOVER')}"
+                                             onclick="if (!confirm('Confirma a exclusão'))
+                                                         return false"/>
                         </div>
                     </p:column>
                 </p:dataTable>
             </h:form>
-            
-            <p:dialog header="Edição" widgetVar="dlg" resizable="false"
-                modal="true" width="50%" height="100%">
-                <h:form id="formEdicao" prependId="false">
-                    <p:growl/>
-                    <div align="center">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="ID"/>
-                            <p:inputText validator="#{controleAcessorios.objeto.id}"
-                                         size="5" readonly="true"/>
-                            <p:outputLabel value="Descricao" for="txtDescricao"/>
-                            <p:inputText id="txtDescricao" value="#{controleAcessorios.objeto.descricao}"
-                                         size="50" maxlength="50"
-                                         placeholder="Obrigatório"/>
-                          
-                        </p:panelGrid>
-                    </div>
-                    <p:panel>
-                        <div align="center">
-                            <p:commandButton value="Salvar"
-                                             icon="pi pi-save"
-                                             actionListener="#{controleAcessorios.salvar()}"
-                                             update="formEdicao formListagem"
-                                             oncomplete="if (!args.validationFailed){PF('dlg').hide();}"/>
-                        </div>
-                    </p:panel>
-                </h:form>
-            </p:dialog>
+
+            <ui:include src="formulario.xhtml"/>
+
         </ui:define>
     </ui:composition>
 </html>
-

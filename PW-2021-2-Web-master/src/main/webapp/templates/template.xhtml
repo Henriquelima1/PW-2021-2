@@ -15,36 +15,46 @@
                 <p:menuitem value="Home"
                             url="#{facesContext.externalContext.requestContextPath}/index.xhtml"
                             icon="pi pi-home"/>
-                <p:submenu label="Cadastros" rendered="#{controleLogin.usuarioAutenticado != null}">
+                <p:submenu label="Cadastros" rendered="#{controleLogin.usuarioAutenticado != null and p:ifGranted('ACESSAR')}">
+                    <p:column>
+                        <p:submenu label="Básicos">
+                            <p:menuitem action="#{controleSeguro.Cadastro()}"
+                                        value="Manutenção de Seguro"
+                                        rendered="#{p:ifGranted('ADMINISTRADOR')}"
+                                        ajax="false"/>
+                            <p:menuitem action="#{controleCarro.Cadastro()}"
+                                        value="Manutenção de Carro"
+                                        rendered="#{p:ifGranted('ADMINISTRADOR')}"
+                                        ajax="false"/> 
+                                                    
+                        </p:submenu>
+                    </p:column>
+                                        
+                </p:submenu>
+                <p:submenu label="Listas" rendered="#{controleLogin.usuarioAutenticado == null}">
                     <p:column>
                         <p:submenu label="Básicos">
                             <p:menuitem action="#{controlePessoa.listar()}"
-                                        value="Manutenção de Pessoa"
+                                        value="Listar Pessoas"
                                         ajax="false"/>
                             <p:menuitem action="#{controleCorretor.listar()}"
-                                        value="Manutenção de Corretor"
+                                        value="Listar Corretores"
                                         ajax="false"/> 
                             <p:menuitem action="#{controleCarro.listar()}"
-                                        value="Manutenção de Carro"
+                                        value="Listar Carros"
                                         ajax="false"/>
                             <p:menuitem action="#{controleAcessorios.listar()}"
-                                        value="Manutenção de Acessórios"
+                                        value="Listar Acessórios"
                                         ajax="false"/>                          
                         </p:submenu>
                     </p:column>
-                   <p:column>
-                        <p:submenu label="Time">
-                            <p:menuitem action="#{controleTime.listar()}"
-                                        value="Manutenção de Times"
-                                        ajax="false"/>                            
-                        </p:submenu>
-                    </p:column>                      
+                                         
                 </p:submenu>
                 <p:submenu label="Relatórios" rendered="#{controleLogin.usuarioAutenticado != null}">
                     <p:column>
                         <p:submenu label="Básicos">
-                            <p:menuitem action="#{controleTime.imprimeTimes()}"
-                                        value="Imprimir"
+                            <p:menuitem action="#{controleAcessorios.imprimir()}"
+                                        value="imprimir"
                                         icon="pi pi-print"
                                         ajax="false"
                                         target="_blank"/>
@@ -65,8 +75,10 @@
                                    rendered="#{controleLogin.usuarioAutenticado != null}">
                             <p:menuitem action="#{controleLogin.logout()}"
                                         value="Logout" icon="pi pi-power-off" ajax="false"/>
-                        </p:submenu>                        
+                        </p:submenu>    
+                        
                     </p:column>
+                   
                 </p:submenu>                
             </p:megaMenu>
         </h:form>
